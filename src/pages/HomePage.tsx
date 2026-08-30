@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { experiences, stories } from '../data/content'
-import { moods } from '../data/moods'
+import { createThoughtSelections, moods } from '../data/moods'
 import { products } from '../data/products'
 import type { Mood } from '../types'
 import { ExperienceCard } from '../components/ExperienceCard'
@@ -14,43 +14,29 @@ import { StoryCard } from '../components/StoryCard'
 
 export function HomePage() {
   const [selectedMood, setSelectedMood] = useState<Mood>(moods[0])
+  const [thoughts] = useState(createThoughtSelections)
   return (
     <>
       <main>
         <section className="hero section-dark">
           <div className="hero-copy">
-            <p className="hero-kicker">Coffee <span /> Mood <span /> Music</p>
-            <h1>Un café.<br />Una canción.<br /><em>Tu momento.</em></h1>
-            <p className="hero-lead">No elegimos por categorías. Empezamos por cómo quieres sentir tu día.</p>
+            <h1>Tu café.<br />Tu canción.<br /><em>Tu momento.</em></h1>
             <a className="scroll-cue" href="#mood-home"><span>Explorar</span><Icon name="arrow" /></a>
           </div>
-          <div className="hero-brand-visual" aria-hidden="true">
-            <img src={`${import.meta.env.BASE_URL}brand/moc-logo-2.png`} alt="" />
-            <div className="orbit orbit-one" /><div className="orbit orbit-two" />
-            <span className="vertical-note">Bogotá · Colombia</span>
-          </div>
+          <span className="hero-city">Bogotá · Colombia</span>
         </section>
 
         <section id="mood-home" className="mood-home section-cream">
           <div className="section-heading split-heading">
-            <div><p className="eyebrow">Mood check · 01</p><h2>¿Cómo te sientes hoy?</h2></div>
-            <p>Elige una intención. Nosotros conectamos café, música y un ritual breve para acompañarla.</p>
+            <div><p className="eyebrow">Mood check · 01</p><h2>Elige cómo quieres sentirte</h2></div>
+            <p>Nosotros seleccionamos un café, una canción y pequeños detalles para acompañar ese momento.</p>
           </div>
           <MoodSelector moods={moods} selectedId={selectedMood.id} onSelect={setSelectedMood} />
-          <MoodResult mood={selectedMood} />
-        </section>
-
-        <section className="flow-section section-dark">
-          <div className="section-heading"><p className="eyebrow">La experiencia MØC · 02</p><h2>Cuatro gestos.<br />Un momento distinto.</h2></div>
-          <div className="ritual-flow">
-            {[['coffee', 'Café', 'Un origen elegido por su perfil.'], ['music', 'Playlist', 'Un ritmo que acompaña tu intención.'], ['spark', 'Frase', 'Una idea breve, sin ruido.'], ['play', 'Momento', 'El espacio para estar donde estás.']].map(([icon, title, copy], index) => (
-              <div key={title}><span className="flow-number">0{index + 1}</span><Icon name={icon as 'coffee'} size={30} /><h3>{title}</h3><p>{copy}</p></div>
-            ))}
-          </div>
+          <MoodResult mood={selectedMood} thought={thoughts[selectedMood.id]} />
         </section>
 
         <section className="featured-products section-light">
-          <div className="section-heading split-heading"><div><p className="eyebrow">La selección · 03</p><h2>Cafés con intención.</h2></div><Link className="text-link" to="/tienda">Ver toda la tienda <Icon name="arrow" /></Link></div>
+          <div className="section-heading split-heading"><div><p className="eyebrow">La selección · 02</p><h2>Cafés con intención.</h2></div><Link className="text-link" to="/tienda">Ver nuestros cafés <Icon name="arrow" /></Link></div>
           <ProductGrid products={products.filter((product) => product.featured).slice(0, 3)} />
           <p className="data-disclaimer">Selección y precios de demostración. La información comercial definitiva está por confirmar.</p>
         </section>
@@ -62,8 +48,8 @@ export function HomePage() {
         </section>
 
         <section className="experience-preview section-cream">
-          <div className="section-heading split-heading"><div><p className="eyebrow">Fuera de la pantalla · 04</p><h2>Experiencias para compartir.</h2></div><p>El café como punto de encuentro: pequeño, atento y diseñado alrededor de las personas.</p></div>
-          <div className="experience-grid">{experiences.slice(0, 2).map((experience, index) => <ExperienceCard key={experience.id} experience={experience} index={index} />)}</div>
+          <div className="section-heading split-heading"><div><p className="eyebrow">Fuera de la pantalla · 03</p><h2>Experiencias para compartir.</h2></div><p>El café como punto de encuentro: pequeño, atento y diseñado alrededor de las personas.</p></div>
+          <div className="experience-grid">{experiences.filter((experience) => ['cata', 'coffee-party'].includes(experience.id)).map((experience, index) => <ExperienceCard key={experience.id} experience={experience} index={index} />)}</div>
           <Link className="button secondary" to="/experiencias">Ver experiencias</Link>
         </section>
 
@@ -73,7 +59,7 @@ export function HomePage() {
         </section>
 
         <section className="stories-preview section-light">
-          <div className="section-heading split-heading"><div><p className="eyebrow">Historias · 05</p><h2>Para leer con café.</h2></div><Link className="text-link" to="/historias">Todas las historias <Icon name="arrow" /></Link></div>
+          <div className="section-heading split-heading"><div><p className="eyebrow">Historias · 04</p><h2>Para leer con café.</h2></div><Link className="text-link" to="/historias">Todas las historias <Icon name="arrow" /></Link></div>
           <div className="story-grid">{stories.slice(0, 3).map((story, index) => <StoryCard key={story.slug} story={story} index={index} />)}</div>
         </section>
 

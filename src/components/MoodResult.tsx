@@ -5,7 +5,7 @@ import type { Mood } from '../types'
 import { Icon } from './Icon'
 import { ProductVisual } from './ProductVisual'
 
-export function MoodResult({ mood }: { mood: Mood }) {
+export function MoodResult({ mood, thought }: { mood: Mood; thought: string }) {
   const product = findProduct(mood.recommendedProductId)
   const { addProduct } = useCart()
   if (!product) return null
@@ -17,8 +17,8 @@ export function MoodResult({ mood }: { mood: Mood }) {
         <h2>{product.name}</h2>
         <p className="result-intro">{product.shortDescription}</p>
         <div className="result-grid">
-          <div><Icon name="music" /><span>Playlist</span><strong>{mood.playlist.name}</strong></div>
-          <div><Icon name="spark" /><span>Frase</span><strong>“{mood.quote}”</strong></div>
+          <div className="result-playlist"><Icon name="music" /><span>Playlist</span><strong>{mood.playlist.name}</strong></div>
+          <blockquote className="result-thought"><Icon name="spark" /><p>“{thought}”</p></blockquote>
           <div className="result-ritual"><Icon name="coffee" /><span>Ritual</span><strong>{mood.ritual}</strong></div>
         </div>
         <div className="button-row">

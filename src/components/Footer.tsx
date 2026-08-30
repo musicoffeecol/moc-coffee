@@ -11,7 +11,7 @@ export function Footer() {
         <a href="https://www.instagram.com/moc.coffee.bta/" target="_blank" rel="noreferrer">Instagram</a>
         <a href="https://open.spotify.com/" target="_blank" rel="noreferrer">Spotify</a>
         <Link to="/contacto">Contacto</Link>
-        <Link to="/tienda">Tienda</Link>
+        <Link to="/tienda">Nuestros cafés</Link>
       </div>
       <p className="footer-note">MVP demostrativo · Bogotá, Colombia · © 2026 MØC</p>
     </footer>

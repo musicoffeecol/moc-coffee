@@ -15,16 +15,23 @@ export type Product = {
   price: number
   images: string[]
   origin: string
-  producer?: string
+  producer?: {
+    name: string
+    farm: string
+    story: string
+  }
   region: string
+  locationDetail?: string
   altitude?: string
   variety?: string
   process: string
+  roastDate?: string
   tastingNotes: string[]
   presentations: string[]
   grindOptions: string[]
   recommendedMoods: string[]
   playlistUrl?: string
+  playlistReason?: string
   available: boolean
   featured?: boolean
   isNew?: boolean
@@ -35,7 +42,7 @@ export type Mood = {
   name: string
   description: string
   accent: string
-  quote: string
+  thoughts: string[]
   ritual: string
   recommendedProductId: string
   playlist: {

@@ -24,7 +24,7 @@ export function ProductPage() {
   return (
     <main>
       <section className="product-detail section-light">
-        <div className="breadcrumbs"><Link to="/tienda">Tienda</Link><span>/</span><span>{product.name}</span></div>
+        <div className="breadcrumbs"><Link to="/tienda">Nuestros cafés</Link><span>/</span><span>{product.name}</span></div>
         <div className="product-detail-grid">
           <div className="product-gallery">
             <ProductVisual token={product.images[galleryIndex]} name={product.name} className="main-product-visual" />
@@ -36,13 +36,30 @@ export function ProductPage() {
             <p className="product-description">{product.description}</p>
             <div className="price-line"><strong>{formatCOP(product.price)}</strong><span>Precio demostrativo</span></div>
             <div className="tasting-block"><span>Notas</span><div>{product.tastingNotes.map((note) => <strong key={note}>{note}</strong>)}</div></div>
-            <dl className="origin-grid"><div><dt>Origen</dt><dd>{product.origin}</dd></div><div><dt>Región</dt><dd>{product.region}</dd></div><div><dt>Variedad</dt><dd>{product.variety ?? 'Por confirmar'}</dd></div><div><dt>Altitud</dt><dd>{product.altitude ?? 'Por confirmar'}</dd></div></dl>
+            <dl className="origin-grid">
+              <div><dt>Origen</dt><dd>{product.origin}</dd></div>
+              <div><dt>Región</dt><dd>{product.region}</dd></div>
+              <div><dt>Lugar</dt><dd>{product.locationDetail ?? 'Por confirmar'}</dd></div>
+              <div><dt>Fecha de tueste</dt><dd>{product.roastDate ?? 'No aplica'}</dd></div>
+              <div><dt>Variedad</dt><dd>{product.variety ?? 'Por confirmar'}</dd></div>
+              <div><dt>Altitud</dt><dd>{product.altitude ?? 'Por confirmar'}</dd></div>
+            </dl>
+            {product.producer && <section className="producer-story" aria-labelledby="producer-title">
+              <p className="eyebrow">Quien está detrás de este café</p>
+              <h2 id="producer-title">{product.producer.farm}</h2>
+              <strong>{product.producer.name}</strong>
+              <p>{product.producer.story}</p>
+            </section>}
             <div className="option-group"><label>Presentación</label><div>{product.presentations.map((option) => <button key={option} className={presentation === option ? 'is-selected' : ''} onClick={() => setPresentation(option)}>{option}</button>)}</div></div>
-            {product.grindOptions.length > 0 && <div className="option-group"><label htmlFor="grind">Molienda</label><select id="grind" value={grind} onChange={(event) => setGrind(event.target.value)}>{product.grindOptions.map((option) => <option key={option}>{option}</option>)}</select></div>}
+            {product.grindOptions.length > 0 && <div className="option-group"><label htmlFor="grind">¿Cómo preparas tu café?</label><select id="grind" value={grind} onChange={(event) => setGrind(event.target.value)}>{product.grindOptions.map((option) => <option key={option}>{option}</option>)}</select><small>Seleccionamos la molienda adecuada para el método que usas.</small></div>}
             {isSubscription && <div className="option-group"><label htmlFor="frequency">Frecuencia</label><select id="frequency" value={frequency} onChange={(event) => setFrequency(event.target.value)}><option>Cada mes</option><option>Cada 15 días</option></select></div>}
             <div className="purchase-row"><QuantitySelector value={quantity} onChange={setQuantity} /><button className="button primary" disabled={!product.available} onClick={() => addProduct(product, { presentation, grind: grind || undefined, subscriptionFrequency: isSubscription ? frequency : undefined, quantity })}>Agregar al carrito <Icon name="bag" /></button></div>
             <p className="availability"><span className={product.available ? 'available' : ''} />{product.available ? 'Disponible en esta demostración' : 'No disponible'}</p>
-            {product.playlistUrl && <a className="playlist-inline" href={product.playlistUrl} target="_blank" rel="noreferrer"><Icon name="music" /><span><small>Playlist relacionada</small>Escuchar el mood de {product.name}</span><Icon name="arrow" /></a>}
+            {product.playlistUrl && <section className="playlist-story" aria-labelledby="playlist-story-title">
+              <Icon name="music" size={30} />
+              <div><p className="eyebrow">La intención detrás de la música</p><h2 id="playlist-story-title">¿Por qué esta playlist?</h2><p>{product.playlistReason}</p></div>
+              <a className="text-link" href={product.playlistUrl} target="_blank" rel="noreferrer">Escuchar playlist <Icon name="arrow" /></a>
+            </section>}
             <p className="data-disclaimer compact">{productDisclaimer}</p>
           </div>
         </div>

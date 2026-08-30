@@ -3,6 +3,7 @@ import type { Experience, Story } from '../types'
 export const experiences: Experience[] = [
   { id: 'cata', name: 'Cata sensorial', description: 'Una conversación guiada para reconocer aromas, sabores y memoria.', audience: 'Amigos, equipos y curiosos', capacity: '4–10 personas', includes: ['Tres perfiles de café', 'Métodos de filtrado', 'Guía sensorial'] },
   { id: 'barra', name: 'Barra para eventos', description: 'Café preparado al momento como parte real de la experiencia del evento.', audience: 'Eventos, ferias y celebraciones', capacity: 'Según formato', includes: ['Baristas', 'Barra móvil', 'Menú acordado'] },
+  { id: 'coffee-party', name: 'Coffee Party', description: 'Café, música y conversación en un formato social que cambia la noche sin depender del alcohol.', audience: 'Comunidades, marcas y celebraciones', capacity: 'Formato por definir', includes: ['Barra de café', 'Curaduría musical', 'Ambientación MØC'] },
   { id: 'empresas', name: 'Experiencias empresariales', description: 'Una pausa diseñada para conectar equipos sin caer en el coffee break genérico.', audience: 'Equipos y organizaciones', capacity: 'Formato adaptable', includes: ['Café de especialidad', 'Dinámica guiada', 'Playlist MØC'] },
   { id: 'privadas', name: 'Experiencias privadas', description: 'Un ritual íntimo de café y música construido alrededor de una ocasión.', audience: 'Grupos privados', capacity: 'Hasta 12 personas', includes: ['Curaduría de café', 'Ambientación sonora', 'Ritual personalizado'] },
 ]

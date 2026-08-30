@@ -22,7 +22,7 @@ export function ShopPage() {
 
   return (
     <main>
-      <section className="page-hero shop-hero section-dark"><div><p className="eyebrow">Tienda · Selección actual</p><h1>No compres café.<br /><em>Encuentra tu ritmo.</em></h1></div><p>Perfiles para distintas formas de habitar el día. Todos los datos comerciales son demostrativos.</p></section>
+      <section className="page-hero shop-hero section-dark"><div><p className="eyebrow">Nuestros cafés · Selección actual</p><h1>No compres café.<br /><em>Encuentra tu ritmo.</em></h1></div><p>Perfiles para distintas formas de habitar el día. Todos los datos comerciales son demostrativos.</p></section>
       <section className="shop-section section-light">
         <div className="shop-toolbar">
           <div className="filter-list" role="group" aria-label="Filtrar productos">{filters.map((item) => <button key={item} className={filter === item ? 'is-active' : ''} onClick={() => setFilter(item)}>{item}</button>)}</div>

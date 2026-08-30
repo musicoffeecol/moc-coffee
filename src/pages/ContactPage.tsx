@@ -12,7 +12,7 @@ export function ContactPage() {
       <form className="contact-form" onSubmit={submit}>
         <label className="field"><span>Nombre</span><input required /></label>
         <label className="field"><span>Correo</span><input type="email" required /></label>
-        <label className="field"><span>Me interesa</span><select defaultValue={params.get('experiencia') ?? 'general'}><option value="general">Conocer MØC</option><option value="cata">Cata sensorial</option><option value="barra">Barra para eventos</option><option value="empresas">Experiencia empresarial</option><option value="privadas">Experiencia privada</option></select></label>
+        <label className="field"><span>Me interesa</span><select defaultValue={params.get('experiencia') ?? 'general'}><option value="general">Conocer MØC</option><option value="cata">Cata sensorial</option><option value="barra">Barra para eventos</option><option value="coffee-party">Coffee Party</option><option value="empresas">Experiencia empresarial</option><option value="privadas">Experiencia privada</option></select></label>
         <label className="field"><span>Mensaje</span><textarea rows={5} required /></label>
         <button className="button primary" type="submit">Preparar mensaje <Icon name="arrow" /></button>
         <p aria-live="polite">{sent ? 'Mensaje preparado. El envío real estará disponible próximamente; no se transmitieron datos.' : 'Sin envíos automáticos en este MVP.'}</p>

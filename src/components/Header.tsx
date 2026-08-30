@@ -4,8 +4,7 @@ import { useCart } from '../cart/CartContext'
 import { Icon } from './Icon'
 
 const nav = [
-  ['Experiencia', '/mood-lab'],
-  ['Tienda', '/tienda'],
+  ['Nuestros cafés', '/tienda'],
   ['Experiencias', '/experiencias'],
   ['Nuestro café', '/nuestro-cafe'],
   ['Historias', '/historias'],
@@ -17,7 +16,10 @@ export function Header() {
   const { pathname } = useLocation()
   return (
     <header className={`site-header ${pathname === '/' ? '' : 'is-solid'}`}>
-      <Link className="wordmark" to="/" aria-label="MØC, ir al inicio">MØC</Link>
+      <Link className="brand-lockup" to="/" aria-label="MØC Coffee Mood Music, ir al inicio">
+        <span>MØC</span>
+        <small>Coffee · Mood · Music</small>
+      </Link>
       <nav className="desktop-nav" aria-label="Navegación principal">
         {nav.map(([label, path]) => <NavLink key={path} to={path}>{label}</NavLink>)}
       </nav>
@@ -31,7 +33,7 @@ export function Header() {
       </div>
       <nav id="mobile-menu" className={`mobile-nav ${menuOpen ? 'is-open' : ''}`} aria-label="Navegación móvil">
         {nav.map(([label, path], index) => <NavLink key={path} to={path} onClick={() => setMenuOpen(false)}><span>0{index + 1}</span>{label}</NavLink>)}
-        <NavLink to="/contacto" onClick={() => setMenuOpen(false)}><span>06</span>Contacto</NavLink>
+        <NavLink to="/contacto" onClick={() => setMenuOpen(false)}><span>05</span>Contacto</NavLink>
       </nav>
     </header>
   )
