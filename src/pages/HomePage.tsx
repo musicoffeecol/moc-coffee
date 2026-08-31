@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { experiences, stories } from '../data/content'
 import { createThoughtSelections, moods } from '../data/moods'
 import { products } from '../data/products'
+import { journeyPath, selectMoment } from '../coffeeJourney'
 import type { Mood } from '../types'
 import { ExperienceCard } from '../components/ExperienceCard'
 import { Icon } from '../components/Icon'
@@ -33,10 +34,11 @@ export function HomePage() {
           </div>
           <MoodSelector moods={moods} selectedId={selectedMood.id} onSelect={setSelectedMood} />
           <MoodResult mood={selectedMood} thought={thoughts[selectedMood.id]} />
+          <div className="guide-exit"><Link className="text-link" to={journeyPath('mood', selectMoment(selectedMood, thoughts[selectedMood.id]))}>Ver mi recorrido completo <Icon name="arrow" /></Link><Link className="text-link" to={journeyPath('catalogo')}>Explorar todos los cafés <Icon name="arrow" /></Link></div>
         </section>
 
         <section className="featured-products section-light">
-          <div className="section-heading split-heading"><div><p className="eyebrow">La selección · 02</p><h2>Cafés con intención.</h2></div><Link className="text-link" to="/tienda">Ver nuestros cafés <Icon name="arrow" /></Link></div>
+          <div className="section-heading split-heading"><div><p className="eyebrow">La selección · 02</p><h2>Cafés con intención.</h2></div><Link className="text-link" to={journeyPath('catalogo')}>Ver nuestros cafés <Icon name="arrow" /></Link></div>
           <ProductGrid products={products.filter((product) => product.featured).slice(0, 3)} />
           <p className="data-disclaimer">Selección y precios de demostración. La información comercial definitiva está por confirmar.</p>
         </section>

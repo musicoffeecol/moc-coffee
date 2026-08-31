@@ -51,6 +51,11 @@ export type Mood = {
   }
 }
 
+export type MomentSelection = {
+  moodId: string
+  thoughtIndex: number
+}
+
 export type CartItem = {
   id: string
   productId: string
@@ -61,6 +66,7 @@ export type CartItem = {
   presentation: string
   grind?: string
   subscriptionFrequency?: string
+  moment?: MomentSelection
 }
 
 export type Experience = {

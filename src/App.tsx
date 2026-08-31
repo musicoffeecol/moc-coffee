@@ -21,7 +21,7 @@ function ScrollAndTitle() {
   const { pathname } = useLocation()
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'auto' })
-    const titles: Record<string, string> = { '/': 'MØC Coffee | Coffee • Mood • Music', '/mood-lab': 'Mood Lab | MØC Coffee', '/tienda': 'Tienda | MØC Coffee', '/experiencias': 'Experiencias | MØC Coffee', '/nuestro-cafe': 'Nuestro café | MØC Coffee', '/historias': 'Historias | MØC Coffee', '/contacto': 'Contacto | MØC Coffee', '/carrito': 'Carrito | MØC Coffee', '/checkout': 'Checkout simulado | MØC Coffee' }
+    const titles: Record<string, string> = { '/': 'MØC Coffee | Coffee • Mood • Music', '/mood-lab': 'Nuestros cafés | MØC Coffee', '/tienda': 'Nuestros cafés | MØC Coffee', '/experiencias': 'Experiencias | MØC Coffee', '/nuestro-cafe': 'Nuestro café | MØC Coffee', '/historias': 'Historias | MØC Coffee', '/contacto': 'Contacto | MØC Coffee', '/carrito': 'Carrito | MØC Coffee', '/checkout': 'Checkout simulado | MØC Coffee' }
     document.title = titles[pathname] ?? (pathname.startsWith('/tienda/') ? 'Producto | MØC Coffee' : pathname.startsWith('/historias/') ? 'Historia | MØC Coffee' : 'MØC Coffee')
   }, [pathname])
   return null

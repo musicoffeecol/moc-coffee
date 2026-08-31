@@ -1,7 +1,9 @@
 /* eslint-disable react-refresh/only-export-components */
-import { createContext, useContext, useEffect, useMemo, useReducer, useState, type ReactNode } from 'react'
-import type { CartItem, Product } from '../types'
+import { createContext, useCallback, useContext, useEffect, useMemo, useReducer, useState, type ReactNode } from 'react'
+import type { CartItem, MomentSelection, Product } from '../types'
 import { cartStorageKey, clampQuantity } from '../utils'
+import { cartItemKey, resolveMoment } from '../coffeeJourney'
+import { moods } from '../data/moods'
 
 type CartState = { items: CartItem[] }
 type CartAction =
@@ -19,10 +21,11 @@ const parseStoredCart = (): CartState => {
       if (!item || typeof item !== 'object') return false
       const candidate = item as Partial<CartItem>
       return typeof candidate.id === 'string' && typeof candidate.name === 'string' &&
+        typeof candidate.productId === 'string' && typeof candidate.image === 'string' &&
         typeof candidate.unitPrice === 'number' && Number.isFinite(candidate.unitPrice) &&
         typeof candidate.quantity === 'number' && candidate.quantity > 0 &&
         typeof candidate.presentation === 'string'
-    }).map((item) => ({ ...item, quantity: clampQuantity(item.quantity) }))
+    }).map((item) => ({ ...item, quantity: clampQuantity(item.quantity), moment: resolveMoment(moods, item.moment, item.productId)?.selection }))
     return { items }
   } catch {
     return { items: [] }
@@ -43,7 +46,7 @@ export const cartReducer = (state: CartState, action: CartAction): CartState => 
   }
 }
 
-type AddOptions = { presentation?: string; grind?: string; subscriptionFrequency?: string; quantity?: number }
+type AddOptions = { presentation?: string; grind?: string; subscriptionFrequency?: string; quantity?: number; moment?: MomentSelection }
 type CartContextValue = {
   items: CartItem[]
   count: number
@@ -64,6 +67,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const [state, dispatch] = useReducer(cartReducer, undefined, parseStoredCart)
   const [isDrawerOpen, setDrawerOpen] = useState(false)
   const [toast, setToast] = useState('')
+  const closeDrawer = useCallback(() => setDrawerOpen(false), [])
 
   useEffect(() => {
     window.localStorage.setItem(cartStorageKey, JSON.stringify(state.items))
@@ -85,16 +89,17 @@ export function CartProvider({ children }: { children: ReactNode }) {
       const presentation = options.presentation ?? product.presentations[0] ?? 'Única'
       const grind = options.grind ?? product.grindOptions[0]
       const frequency = options.subscriptionFrequency
-      const id = [product.id, presentation, grind, frequency].filter(Boolean).join('|')
-      dispatch({ type: 'add', item: { id, productId: product.id, name: product.name, image: product.images[0] ?? product.id, unitPrice: product.price, quantity: options.quantity ?? 1, presentation, grind, subscriptionFrequency: frequency } })
+      const moment = resolveMoment(moods, options.moment, product.id)?.selection
+      const id = cartItemKey(product.id, presentation, grind, frequency, moment)
+      dispatch({ type: 'add', item: { id, productId: product.id, name: product.name, image: product.images[0] ?? product.id, unitPrice: product.price, quantity: options.quantity ?? 1, presentation, grind, subscriptionFrequency: frequency, moment } })
       setToast(`${product.name} se agregó a tu momento.`)
     },
     setQuantity: (id, quantity) => dispatch({ type: 'quantity', id, quantity }),
     removeItem: (id) => dispatch({ type: 'remove', id }),
     clearCart: () => dispatch({ type: 'clear' }),
     openDrawer: () => setDrawerOpen(true),
-    closeDrawer: () => setDrawerOpen(false),
-  }), [state.items, isDrawerOpen, toast])
+    closeDrawer,
+  }), [state.items, isDrawerOpen, toast, closeDrawer])
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>
 }
